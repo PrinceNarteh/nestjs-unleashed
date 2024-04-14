@@ -4,8 +4,9 @@ import { UsersModule } from 'users/users.module';
 import { DatabaseModule } from './database/database.module';
 import { EnvModule } from './env/env.module';
 import { OrdersModule } from './domain/orders/orders.module';
+import { PaymentsModule } from './domain/payments/payments.module';
 
 @Module({
-  imports: [DatabaseModule, CommonModule, UsersModule, EnvModule, OrdersModule],
+  imports: [DatabaseModule, CommonModule, UsersModule, EnvModule, OrdersModule, PaymentsModule],
 })
 export class AppModule { }
