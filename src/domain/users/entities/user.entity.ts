@@ -1,8 +1,8 @@
-import { RegistryDates } from 'common/embedded/registry-dates.embedded';
+import { AbstractEntity } from 'database/entities/abstract.entity';
 import { PrimaryGeneratedColumn, Entity, Column } from 'typeorm';
 
 @Entity()
-export class User {
+export class User extends AbstractEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -17,7 +17,4 @@ export class User {
 
   @Column()
   password: string;
-
-  @Column(() => RegistryDates, { prefix: false })
-  registaryDates: RegistryDates;
 }
