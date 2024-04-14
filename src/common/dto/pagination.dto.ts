@@ -1,13 +1,12 @@
-import { IsInt, IsOptional, IsPositive } from 'class-validator';
+import { IsOptional } from 'class-validator';
+import { IsPositiveInt } from 'common/decorators/is-positive-int.decorator';
 
 export class PaginationDto {
   @IsOptional()
-  @IsInt()
-  @IsPositive()
+  @IsPositiveInt()
   readonly limit: number;
 
   @IsOptional()
-  @IsInt()
-  @IsPositive()
+  @IsPositiveInt()
   readonly offset: number;
 }
