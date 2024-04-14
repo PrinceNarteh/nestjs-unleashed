@@ -1,5 +1,6 @@
 import { AbstractEntity } from 'database/entities/abstract.entity';
-import { PrimaryGeneratedColumn, Entity, Column } from 'typeorm';
+import { Order } from 'orders/entities/order.entity';
+import { PrimaryGeneratedColumn, Entity, Column, OneToMany } from 'typeorm';
 
 @Entity()
 export class User extends AbstractEntity {
@@ -17,4 +18,7 @@ export class User extends AbstractEntity {
 
   @Column()
   password: string;
+
+  @OneToMany(() => Order, (order) => order.customer)
+  orders: Order[];
 }
