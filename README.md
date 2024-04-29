@@ -74,4 +74,7 @@ Nest is [MIT licensed](LICENSE).
 
 
 ## Generate Migration
-yarn run migration:generate ./src/database/migrations
+yarn run migration:generate src/database/migrations/<migration-name>
+
+## Run Migration
+yarn run migration:run

@@ -1,27 +1,58 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Product } from './entities/product.entity';
+import { Repository } from 'typeorm';
 import { PaginationDto } from 'common/dto/pagination.dto';
+import { DEFAULT_PAGE_SIZE } from 'common/utils/common.constants';
 
 @Injectable()
-export class ProductsService {
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+export class productsService {
+  constructor(
+    @InjectRepository(Product)
+    private readonly productsRepository: Repository<Product>,
+  ) {}
+
+  async create(createProductDto: CreateProductDto): Promise<Product> {
+    const product = this.productsRepository.create(createProductDto);
+    return this.productsRepository.save(product);
   }
 
-  findAll(paginationDto: PaginationDto) {
-    return `This action returns all products`;
+  async findAll(paginationDto: PaginationDto): Promise<Product[]> {
+    const { limit, offset } = paginationDto;
+    return this.productsRepository.find({
+      skip: offset,
+      take: limit ?? DEFAULT_PAGE_SIZE.PRODUCT,
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(id: number): Promise<Product> {
+    const product = await this.productsRepository.findOne({
+      where: { id },
+      relations: {
+        categories: true,
+      },
+    });
+    if (!product) {
+      throw new NotFoundException('product not found');
+    }
+    return product;
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    const product = await this.productsRepository.preload({
+      id,
+      ...updateProductDto,
+    });
+    if (!product) {
+      throw new NotFoundException('product not found');
+    }
+    return this.productsRepository.save(product);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(id: number) {
+    const product = await this.findOne(id);
+    return this.productsRepository.remove(product);
   }
 }
