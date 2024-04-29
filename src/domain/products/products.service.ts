@@ -8,7 +8,7 @@ import { PaginationDto } from 'common/dto/pagination.dto';
 import { DEFAULT_PAGE_SIZE } from 'common/utils/common.constants';
 
 @Injectable()
-export class productsService {
+export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly productsRepository: Repository<Product>,

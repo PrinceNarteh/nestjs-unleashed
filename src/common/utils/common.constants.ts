@@ -4,6 +4,7 @@ export const VALIDATION_PIPE_OPTIONS: ValidationPipeOptions = {
   whitelist: true,
   forbidNonWhitelisted: true,
   transform: true,
+  stopAtFirstError: true,
   transformOptions: {
     enableImplicitConversion: true,
   },

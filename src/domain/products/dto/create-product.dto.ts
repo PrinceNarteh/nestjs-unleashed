@@ -1,11 +1,6 @@
-import { Type } from 'class-transformer';
-import {
-  ArrayNotEmpty,
-  IsOptional,
-  Length,
-  ValidateNested,
-} from 'class-validator';
+import { ArrayNotEmpty, IsOptional, Length } from 'class-validator';
 import { IsCurrency } from 'common/decorators/is-currency.decorator';
+import { IsEntity } from 'common/decorators/is-entity.decorator';
 import { IdDto } from 'common/dto/id.dto';
 
 export class CreateProductDto {
@@ -20,7 +15,6 @@ export class CreateProductDto {
   readonly price: number;
 
   @ArrayNotEmpty()
-  @ValidateNested()
-  @Type(() => IdDto)
+  @IsEntity()
   readonly categories: IdDto[];
 }
