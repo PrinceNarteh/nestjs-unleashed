@@ -4,6 +4,7 @@ import { Payment } from 'payments/entities/payment.entity';
 import { Column, Entity, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { User } from 'users/entities/user.entity';
 import { OrderItem } from './order-item.entity';
+import { Expose } from 'class-transformer';
 
 @Entity()
 export class Order extends AbstractEntity {
@@ -23,7 +24,8 @@ export class Order extends AbstractEntity {
   @ManyToOne(() => User, (customer) => customer.orders, { nullable: false })
   customer: User;
 
-  get orders() {
-    return this.items.map((item) => item.order);
+  @Expose()
+  get total() {
+    return this.items?.reduce((acc, cur) => acc + cur.subTotal, 0);
   }
 }

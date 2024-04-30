@@ -1,6 +1,7 @@
 import { Product } from 'products/entities/product.entity';
 import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 import { Order } from './order.entity';
+import { Expose } from 'class-transformer';
 
 @Entity()
 export class OrderItem {
@@ -21,4 +22,9 @@ export class OrderItem {
 
   @ManyToOne(() => Order, (order) => order.items, { onDelete: 'CASCADE' })
   order: Order;
+
+  @Expose()
+  get subTotal() {
+    return this.quantity * this.price;
+  }
 }
